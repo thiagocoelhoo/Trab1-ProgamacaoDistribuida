@@ -52,6 +52,15 @@ public class Database {
         ServerSocket serverSocket = new ServerSocket(port);
         ExecutorService executor = Executors.newFixedThreadPool(10);
         
+        executor.submit(() -> {
+            Killer killer = new Killer();
+            try {
+                killer.killAll(5000, "224.0.0.2", "wlp0s20f3", executor);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
         logger.log(String.format("Banco de dados escutando na porta %d\n", port));
 
         while (true) {

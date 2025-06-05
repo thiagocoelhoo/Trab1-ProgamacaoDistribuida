@@ -104,7 +104,15 @@ public class LoadBalancer {
     public void run() throws Exception {
         ServerSocket serverSocket = new ServerSocket(port);
         ExecutorService executor = Executors.newFixedThreadPool(10);
-
+        executor.submit(() -> {
+            Killer killer = new Killer();
+            try {
+                killer.killAll(5000, "224.0.0.2", "wlp0s20f3", executor);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        
         while (true) {
             Socket clientSocket = serverSocket.accept();
             executor.submit(() -> {

@@ -53,15 +53,6 @@ public class Server {
         return response;
     }
 
-    // private String recvFromDatabase() throws Exception {
-    //     Socket databaseSocket = new Socket(databaseIp, databasePort);
-    //     DataInputStream inStream = new DataInputStream(databaseSocket.getInputStream());
-    //     String message = inStream.readUTF();
-    //     databaseSocket.close();
-
-    //     return message;
-    // }
-
     private void updateUsers() throws Exception {
         String response = sendToDatabase("read");
         logger.log("RESPONSE: " + response + ".");
@@ -100,7 +91,14 @@ public class Server {
     public void run() throws Exception {
         ServerSocket serverSocket = new ServerSocket(port);
         executor = Executors.newFixedThreadPool(10);
-        // ExecutorService exe2 = Executors.newScheduledThreadPool(1);
+        executor.submit(() -> {
+            Killer killer = new Killer();
+            try {
+                killer.killAll(5000, "224.0.0.2", "wlp0s20f3", executor);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
         System.out.printf("Servidor escutando na porta %d\n", port);
         

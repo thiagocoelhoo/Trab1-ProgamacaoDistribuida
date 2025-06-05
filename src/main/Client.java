@@ -37,17 +37,6 @@ public class Client {
     }
 
     public static void main(String args[]) {
-        // Scanner s = new Scanner(System.in);
-        
-        // String group;
-        // int port;
-
-        // System.out.print("Group: ");
-        // group = s.next();
-
-        // System.out.print("Port: ");
-        // port = s.nextInt();
-
         try {
             Client client = new Client("224.0.0.1", 2000);
             client.run();
